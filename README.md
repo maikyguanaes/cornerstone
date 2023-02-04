@@ -63,6 +63,11 @@ pytest -vv -s -- <file>
 ptw -- -vv -s <file>
 ```
 
+### Lint
+```bash
+flake8 .
+```
+
 ### Run with coverage report
 ```bash
 coverage run -m pytest
