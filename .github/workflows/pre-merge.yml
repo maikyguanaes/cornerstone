@@ -29,19 +29,9 @@ jobs:
       - name: Make .env
         shell: bash
         env:
-          FLASK_APP: "cornerstone"
-          FLASK_SECRET_KEY: "development key"
           FLASK_ENV: "development"
-          FLASK_DEBUG: "false"
-          FLASK_TESTING: "true"
-          FLASK_RUN_PORT: "8080"
         run: |
-          echo 'FLASK_APP=$FLASK_APP' >> .env
-          echo 'FLASK_SECRET_KEY=$FLASK_SECRET_KEY' >> .env
-          echo 'FLASK_ENV=$FLASK_ENV' >> .env
-          echo 'FLASK_DEBUG=$FLASK_DEBUG' >> .env
-          echo 'FLASK_TESTING=$FLASK_TESTING' >> .env
-          echo 'FLASK_RUN_PORT=$FLASK_RUN_PORT' >> .env
+          cp .env.example .env
 
       - name: Run test suite
         run: |
