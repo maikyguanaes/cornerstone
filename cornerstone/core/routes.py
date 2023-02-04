@@ -3,7 +3,7 @@ from os import environ
 
 from flask import Blueprint
 
-from .responses.types import ApiType
+from .response.types import ApiType
 from ..core.enums.http_status import HttpStatus
 
 CURRENT_API_VERSION = environ.get('CURRENT_API_VERSION')
@@ -18,7 +18,13 @@ def health_check():
     return payload.to_response(), HttpStatus.OK.status_code
 
 
-@bp_v1.route('/', methods=['GET'])
-def index():
+@bp.route('/', methods=['GET'])
+def index(): # NOQA
     payload = ApiType({'version': CURRENT_API_VERSION})
+    return payload.to_response(), HttpStatus.OK.status_code
+
+
+@bp_v1.route('/', methods=['GET'])
+def index(): # NOQA
+    payload = ApiType({'version': "v1"})
     return payload.to_response(), HttpStatus.OK.status_code

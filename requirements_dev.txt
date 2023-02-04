@@ -11,3 +11,4 @@ pytest-dotenv==0.5.2
 flask-shell-ipython==0.4.1
 vcrpy==4.2.0
 mock==4.0.3
+freezegun==1.2.2
