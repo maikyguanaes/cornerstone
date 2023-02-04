@@ -1,0 +1,19 @@
+version: '2'
+
+options:
+  verbose: true
+
+syncs:
+  # IMPORTANT: This has to be a unique container name,
+  # just sufix you're target cornerstone with "_sync" and
+  # you'll be keeping consistent names as a convention
+  cornerstone_sync:
+    src: '.'
+    sync_excludes: [
+      '.git',
+      '.gitignore',
+      '.docker-sync',
+      'docker-sync.yml',
+      '.dockerignore',
+      'tmp',
+    ]
