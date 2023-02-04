@@ -3,6 +3,8 @@ Cornerstone
 
 The Pilar's test case to backend
 
+### Badge
+[![pre-merge](https://github.com/maikyguanaes/cornerstone/actions/workflows/pre-merge.yml/badge.svg?branch=main)](https://github.com/maikyguanaes/cornerstone/actions/workflows/pre-merge.yml)
 
 Setup
 -------
