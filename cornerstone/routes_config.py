@@ -5,11 +5,18 @@ from .core.routes import (
     bp_v1 as core_bp_v1,
 )
 
+from .words.routes import (
+    bp as words_bp,
+)
+
 RouteConfig = namedtuple('RouteConfig', 'blueprint options')
 APP_ROUTES = (
     # core
     RouteConfig(core_bp, {}),
     RouteConfig(core_bp_v1, {'url_prefix': '/v1'}),
+
+    # words
+    RouteConfig(words_bp, {}),
 )
 
 
