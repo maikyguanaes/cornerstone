@@ -74,3 +74,60 @@ def test_vowel_count_url_method_not_allowed(client, payload_as_json):
     # then
     assert HttpStatus(response.status_code).is_method_not_allowed
     assert response_data is None
+
+
+def test_sort_words_with_content_type_text(client, payload_as_text):
+
+    # when
+    response = client.post("sort", data=payload_as_text, content_type='text/plain')
+    response_data = response.json
+
+    # then
+    assert HttpStatus(response.status_code).is_bad_request
+    assert response_data is None
+
+
+@pytest.mark.parametrize('file_path, expected_result', [
+    pytest.param(
+        join(PROJECT_ROOT_PATH, "test/fixtures/json/words/request/sort_words_asc.json"),
+        ["batman", "coringa", "robin"], id="asc"
+    ),
+    pytest.param(
+        join(PROJECT_ROOT_PATH, "test/fixtures/json/words/request/sort_words_desc.json"),
+        ["robin", "coringa", "batman"], id="desc"
+    ),
+])
+def test_sort_words_url(client, payload_as_json, expected_result):
+
+    # when
+    response = client.post("sort", json=payload_as_json)
+    response_data = response.json
+
+    # then
+    assert HttpStatus(response.status_code).is_ok
+    assert response_data == expected_result
+
+
+@pytest.mark.parametrize('file_path', [
+    join(PROJECT_ROOT_PATH, "test/fixtures/json/words/request/incorrect_words.json"),
+    join(PROJECT_ROOT_PATH, "test/fixtures/json/words/request/incorrect_sort_words_desc.json")
+])
+def test_sort_words_incorrect_payload(client, payload_as_json, file_path):
+    # when
+    response = client.post("sort", json=payload_as_json)
+    response_data = response.json
+
+    # then
+    assert HttpStatus(response.status_code).is_bad_request
+    assert response_data == {}
+
+
+def test_sort_words_url_method_not_allowed(client, payload_as_json):
+
+    # when
+    response = client.get("sort", json=payload_as_json)
+    response_data = response.json
+
+    # then
+    assert HttpStatus(response.status_code).is_method_not_allowed
+    assert response_data is None

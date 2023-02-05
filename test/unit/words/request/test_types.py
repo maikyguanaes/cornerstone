@@ -1,6 +1,6 @@
 import pytest
 
-from cornerstone.words.request.types import VowelCountRequestApiType
+from cornerstone.words.request.types import VowelCountRequestApiType, SortWordsRequestApiType
 
 
 @pytest.mark.parametrize('words, expected_result', [
@@ -27,4 +27,23 @@ def test_vowel_count_run(words, expected_result):
 
     # then
     result = vowel_count.run()
+    assert result == expected_result
+
+
+@pytest.mark.parametrize('words, expected_result', [
+    pytest.param(
+        {"words": ["batman", "robin", "coringa"], "order": "asc"}, ["batman", "coringa", "robin"],
+        id="asc"
+    ),
+    pytest.param(
+        {"words": ["batman", "robin", "coringa"], "order": "desc"}, ["robin", "coringa", "batman"],
+        id="desc"
+    ),
+])
+def test_sort_words_run(words, expected_result):
+    # when
+    sorted_words = SortWordsRequestApiType(words)
+
+    # then
+    result = sorted_words.run()
     assert result == expected_result
