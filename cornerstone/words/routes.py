@@ -1,5 +1,5 @@
-
 from flask import Blueprint, request
+from schematics.exceptions import DataError
 
 from .request.types import VowelCountRequestApiType
 from .response.types import VowelCountResponseApiType
@@ -12,7 +12,10 @@ bp = Blueprint('words', __name__)
 def vowel_count():
     payload = request.json
 
-    result = VowelCountRequestApiType(payload).run()
+    try:
+        result = VowelCountRequestApiType(payload).run()
+    except DataError:
+        return {}, HttpStatus.BAD_REQUEST.status_code
 
     response = VowelCountResponseApiType({'words': result})
 
