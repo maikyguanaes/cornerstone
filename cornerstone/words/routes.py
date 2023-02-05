@@ -1,8 +1,8 @@
 from flask import Blueprint, request
 from schematics.exceptions import DataError
 
-from .request.types import VowelCountRequestApiType
-from .response.types import VowelCountResponseApiType
+from .request.types import VowelCountRequestApiType, SortWordsRequestApiType
+from .response.types import VowelCountResponseApiType, SortWordsResponseApiType
 from ..core.enums.http_status import HttpStatus
 
 bp = Blueprint('words', __name__)
@@ -18,5 +18,19 @@ def vowel_count():
         return {}, HttpStatus.BAD_REQUEST.status_code
 
     response = VowelCountResponseApiType({'words': result})
+
+    return response.to_response(), HttpStatus.OK.status_code
+
+
+@bp.route('/sort', methods=['POST'])
+def sort_words():
+    payload = request.json
+
+    try:
+        result = SortWordsRequestApiType(payload).run()
+    except (DataError, ValueError):
+        return {}, HttpStatus.BAD_REQUEST.status_code
+
+    response = SortWordsResponseApiType({'words': result})
 
     return response.to_response(), HttpStatus.OK.status_code
