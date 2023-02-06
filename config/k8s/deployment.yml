@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: cornerstone
+  labels:
+    app: cornerstone
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cornerstone
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: cornerstone
+    spec:
+      containers:
+        - name: cornerstone
+          image: <IMAGE>
+          securityContext:
+            privileged: true
+          ports:
+            - name: http
+              containerPort: 8080
+              hostPort: 80
+            - name: https
+              containerPort: 8080
+              hostPort: 443
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 100m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cornerstone
+  labels:
+    app: cornerstone
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: cornerstone
