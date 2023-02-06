@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_run:
-    workflows: ["pre-merge"]
-    types:
-      - completed
+
 env:
   REPOSITORY: cornerstone
   REGISTRY: registry.digitalocean.com/maiky-dev
@@ -18,7 +15,6 @@ jobs:
   check-branch:
     name: Check branch
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion == 'success'
 
     outputs:
       sha_short: ${{ env.SHA_SHORT }}
